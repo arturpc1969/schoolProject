@@ -1,13 +1,20 @@
 package br.com.alura.school.course;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import static javax.persistence.GenerationType.IDENTITY;
+import br.com.alura.school.user.User;
 
 @Entity
 class Course {
@@ -27,7 +34,10 @@ class Course {
     private String name;
 
     private String description;
-
+    
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CourseUsers> users = new ArrayList<>();
+    
     @Deprecated
     protected Course() { }
 
@@ -35,6 +45,10 @@ class Course {
         this.code = code;
         this.name = name;
         this.description = description;
+    }
+    
+    Long getId() {
+    	return id;
     }
 
     String getCode() {
@@ -48,5 +62,17 @@ class Course {
     String getDescription() {
         return description;
     }
+    
+    
+    
+    public List<CourseUsers> getUsers() {
+		return users;
+	}
 
+	public void addUserEnroll(User user) {
+        CourseUsers courseUsers = new CourseUsers(this, user);
+        users.add(courseUsers);
+        user.getCourses().add(courseUsers);
+    }
+    
 }
