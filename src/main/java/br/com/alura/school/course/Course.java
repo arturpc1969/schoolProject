@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 import br.com.alura.school.user.User;
 
 @Entity
-class Course {
+public class Course {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -41,7 +41,7 @@ class Course {
     @Deprecated
     protected Course() { }
 
-    Course(String code, String name, String description) {
+    public Course(String code, String name, String description) {
         this.code = code;
         this.name = name;
         this.description = description;
