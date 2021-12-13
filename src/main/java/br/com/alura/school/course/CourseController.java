@@ -20,10 +20,12 @@ class CourseController {
 
 	private final CourseRepository courseRepository;
 	private final UserRepository userRepository;
+	private final CourseUsersRepository courseUserRepository;
 
-	CourseController(CourseRepository courseRepository, UserRepository userRepository) {
+	CourseController(CourseRepository courseRepository, UserRepository userRepository, CourseUsersRepository courseUserRepository) {
 		this.courseRepository = courseRepository;
 		this.userRepository = userRepository;
+		this.courseUserRepository = courseUserRepository;
 	}
 
 	@GetMapping("/courses")
@@ -67,4 +69,11 @@ class CourseController {
 		}
 		return ResponseEntity.badRequest().build();
 	}
+	
+	@GetMapping("/courses/enroll/report")
+	public List<ItemCourseEnrollReport> courseEnrollReport() {
+		return courseUserRepository.courseEnrollReport();
+		
+	}
+	
 }
